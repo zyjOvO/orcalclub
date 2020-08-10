@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    <script src="{% static 'game/js/jquery.min.js' %}"></script>
+    <script src="{% static 'game/js/Helper.js' %}"></script>
+    <script src="{% static 'game/js/keyboard.js' %}"></script>
+    <script src="{% static 'game/js/const.js' %}"></script>
+    <script src="{% static 'game/js/level.js' %}"></script>
+    <script src="{% static 'game/js/crackAnimation.js' %}"></script>
+    <script src="{% static 'game/js/prop.js' %}"></script>
+    <script src="{% static 'game/js/bullet.js' %}"></script>
+    <script src="{% static 'game/js/tank.js' %}"></script>
+    <script src="{% static 'game/js/num.js' %}"></script>
+    <script src="{% static 'game/js/menu.js' %}"></script>
+    <script src="{% static 'game/js/map.js' %}"></script>
+    <script src="{% static 'game/js/Collision.js' %}"></script>
+    <script src="{% static 'game/js/stage.js' %}"></script>
+    <script src="{% static 'game/js/main.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="/static/assets/css/tank-default.css"/>
+    <style type="text/css">
+        #canvasDiv canvas {
+            position: absolute;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h3>操作说明：玩家1：wasd上左下右，space射击；玩家2：方向键，enter射击。n下一关，p上一关。</h3>
+        <div class="main clearfix" style="text-align: center">
+            <div id="canvasDiv" style="background: rgb(245, 245, 245); width: 100%; height: 448px;">
+                <canvas id="wallCanvas"></canvas>
+                <canvas id="tankCanvas"></canvas>
+                <canvas id="grassCanvas"></canvas>
+                <canvas id="overCanvas"></canvas>
+                <canvas id="stageCanvas"></canvas>
+            </div>
+        </div>
+
+    </div><!-- /container -->
+{% endblock %}

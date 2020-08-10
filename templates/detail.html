@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    <link href="/static/markdown/css/editormd.preview.css" rel="stylesheet"/>
+    <script type="text/javascript" src="/static/markdown/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/markdown/js/marked.min.js"></script>
+    <script type="text/javascript" src="/static/markdown/js/prettify.min.js"></script>
+    <script type="text/javascript" src="/static/markdown/js/raphael.min.js"></script>
+    <script type="text/javascript" src="/static/markdown/js/underscore.min.js"></script>
+    <script type="text/javascript" src="/static/markdown/js/sequence-diagram.min.js"></script>
+    <script type="text/javascript" src="/static/markdown/js/flowchart.min.js"></script>
+    <script type="text/javascript" src="/static/markdown/js/jquery.flowchart.min.js"></script>
+    <script type="text/javascript" src="/static/markdown/js/editormd.js"></script>
+{% endblock %}
+{% block content %}
+    <div class="am-g am-g-fixed blog-fixed blog-content" style="padding-bottom: 100px">
+        <div class="am-u-sm-12">
+            <article class="am-article blog-article-p">
+
+                <div class="am-article-hd">
+                    <h1 class="am-article-title blog-text-center">{{ article.title }}</h1>
+                    <p class="am-article-meta blog-text-center">
+                        <span><a href="/topic/{{ article.topic_id }}" class="blog-color">{{ article.topic }} &nbsp;</a></span>-
+                        <span>{{ article.author }}</span>-
+                        <span>{{ article.publish_date }}</span>
+                    </p>
+                </div>
+                <div class="am-article-bd" style="width: 80%; margin: auto">
+                    <img src="{{ article.image.url }}" alt="" class="blog-entry-img blog-article-margin">
+                    <div id="layout" class="editor">
+                        <div id="test-editormd">
+                            <textarea>{{ article.content }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <hr>
+            <ul class="am-pagination blog-article-margin">
+                <li class="am-pagination-prev"><a href="/article/{{ pres.id }}" class="">&laquo; 上一篇</a></li>
+                <li class="am-pagination-next"><a href="/article/{{ nexts.id }}">下一篇 &raquo;</a></li>
+            </ul>
+
+            <hr>
+            {% for c in article.comment_set.all %}
+                <div class="am-g blog-author blog-article-margin"
+                     style="border-bottom: solid 1px #2d0d0d4f;position: relative;margin: 0px;padding: 20px">
+                    <div class="am-u-sm-3 am-u-md-3 am-u-lg-2">
+                        <img src="{{ c.commentator.image.url }}" alt="" class="blog-author-img am-circle">
+                    </div>
+                    <div class="am-u-sm-9 am-u-md-9 am-u-lg-10">
+                        <h3><span>评论人 &nbsp;: &nbsp;</span><span class="blog-color">{{ c.commentator }}</span></h3>
+                        <p>{{ c.content }}</p>
+                    </div>
+                    {% if c.commentator.username == request.user.username %}
+                        <div style="position: absolute;right: 0;top:0px">
+                            <button class="am-btn am-btn-default" onclick="delete_comment({{ c.id }})">
+                                <i class="am-icon-remove"></i>
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <form method="post" action="/comment/{{ article.id }}/" class="am-form am-g">
+                {% csrf_token %}
+                <h3 class="blog-comment">评论</h3>
+                <fieldset>
+                    <input type="hidden" name="commentator" value="{{ request.user }}">
+                    <div class="am-form-group">
+                        <textarea name="content" class="" rows="5" placeholder="回复内容"></textarea>
+                    </div>
+                    <p>{% if request.user.is_authenticated %}
+                        <button type="submit" class="am-btn am-btn-default">发表评论</button>
+                    {% else %}
+                        登录后发表评论
+                    {% endif %}</p>
+                </fieldset>
+            </form>
+            <hr>
+        </div>
+    </div>
+    <!-- content end -->
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/amazeui.min.js' %}"></script>
+    <script type="application/javascript">
+        function delete_comment(comment_id) {
+            $.post('/comment-delete/' + comment_id + "/", {"csrfmiddlewaretoken": "{{ csrf_token }}"}, function (res) {
+                window.location.href = "/article/" + "{{ article.id }}";
+            })
+        }
+
+
+
+        testEditor = editormd.markdownToHTML("test-editormd", {
+            {#markdown: "{{ article.content }}",#}
+
+            htmlDecode: "style,script,iframe",  // you can filter tags decode
+            emoji: true,
+            taskList: true,
+            tex: true,  // 默认不解析
+            flowChart: true,  // 默认不解析
+            sequenceDiagram: true,  // 默认不解析
+        });
+
+        console.log(testEditor.getMarkdown())
+    </script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>REGISTER</title>
+  <link rel="stylesheet" href="{% static 'assets/css/amazeui.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+</head>
+<body>
+<header>
+  <div class="log-header">
+      <h1><a href="/">甲骨文俱乐部网站</a></h1>
+  </div>
+</header>
+
+<div class="log">
+  <div class="am-g">
+  <div class="am-u-lg-3 am-u-md-6 am-u-sm-8 am-u-sm-centered log-content">
+    <h1 class="log-title am-animation-slide-top">注册</h1>
+    <br>
+    <form method="post" class="am-form" id="log-form" action="{% url 'register' %}">
+        {% csrf_token %}
+      <div class="am-input-group am-radius am-animation-slide-left">
+        <input name="username" type="text" id="doc-vld-text-2-1" class="am-form-field am-radius log-input" data-validation-message="请输入用户名" placeholder="用户名" required/>
+        <span class="am-input-group-label log-icon am-radius"><i class="am-icon-user am-icon-sm am-icon-fw"></i></span>
+      </div>
+      <br>
+      <div class="am-input-group am-radius am-animation-slide-left">
+        <input name="email" type="email" id="doc-vld-email-2-1" class="am-radius" data-validation-message="请输入正确邮箱地址" placeholder="邮箱" required/>
+        <span class="am-input-group-label log-icon am-radius"><i class="am-icon-envelope am-icon-sm am-icon-fw"></i></span>
+      </div>
+      <br>
+      <div class="am-input-group am-animation-slide-left log-animation-delay">
+        <input name="password" type="password" id="log-password" class="am-form-field am-radius log-input" placeholder="密码" minlength="6" required>
+        <span class="am-input-group-label log-icon am-radius"><i class="am-icon-lock am-icon-sm am-icon-fw"></i></span>
+      </div>
+      <br>
+      <div class="am-input-group am-animation-slide-left log-animation-delay-a">
+        <input type="password" data-equal-to="#log-password" class="am-form-field am-radius log-input" placeholder="确认密码" data-validation-message="请确认密码一致" required>
+        <span class="am-input-group-label log-icon am-radius"><i class="am-icon-lock am-icon-sm am-icon-fw"></i></span>
+      </div>
+      <br>
+        <div class="am-input-group am-radius am-animation-slide-left">
+        <input name="phone" type="text" id="doc-vld-text-2-1" class="am-form-field am-radius log-input" data-validation-message="请输入电话" placeholder="电话" required/>
+        <span class="am-input-group-label log-icon am-radius"><i class="am-icon-mobile-phone am-icon-sm am-icon-fw"></i></span>
+      </div>
+      <br>
+      <button type="submit" class="am-btn am-btn-primary am-btn-block am-btn-lg am-radius am-animation-slide-bottom log-animation-delay-b">注 册</button>
+      <br>
+    </form>
+      {% if error %}
+          <div style="color: red">{{ error }}</div>
+      {% endif %}
+  </div>
+  </div>
+</div>
+
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/amazeui.min.js' %}"></script>
+<script src="{% static 'assets/js/app.js' %}"></script>
+</body>
+</html>

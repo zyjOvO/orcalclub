@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- content srart -->
+<div class="am-g am-g-fixed blog-fixed" style="padding-bottom: 100px">
+    <div class="am-u-md-12 am-u-sm-12">
+        {% for item in articles %}
+        <article class="am-g blog-entry-article">
+            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img">
+                <img src="{{ item.image.url }}" alt="" class="am-u-sm-12">
+            </div>
+            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
+                <span class="blog-color">作者: </span>
+                <span> {% for i in item.author.all %}{{ i.nickname }} {% endfor %}&nbsp;</span>
+                <span>{{ item.publish_date }}</span>
+                <h1><a href="/article/{{ item.id }}">{{ item.title }}</a></h1>
+                <p>{{ item.brief }}</p>
+                <p><a href="" class="blog-continue">continue reading</a></p>
+            </div>
+        </article>
+        {% endfor %}
+        <ul class="am-pagination">
+        {% if articles.has_previous %}
+        <li class="am-pagination-prev"><a href="?page={{ articles.previous_page_number }}">&laquo; Prev</a></li>
+        {% else %}
+        <li class="am-pagination-prev"></li>
+        {% endif %}
+        {% if articles.has_next %}
+        <li class="am-pagination-next"><a href="?page={{ articles.next_page_number }}">Next &raquo;</a></li>
+        {% else %}
+        <li class="am-pagination-next"></li>
+        {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

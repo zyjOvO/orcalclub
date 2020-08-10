@@ -1,0 +1,35 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最新资讯</title>
+    {#    <link rel="stylesheet" href="css/advertising.css">#}
+    <link rel="stylesheet" href="{% static 'assets/css/advertising.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/amazeui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+</head>
+
+<body>
+
+<div class="jgwindow">
+    <div>
+    {% include 'base_nav.html' %}
+</div>
+    <div class="jgwmessage">
+        <h1>标题</h1>
+        内容<br>
+        <img src="{% static 'images/mmexport1595956518971.jpg' %}" width="452" height="338">
+        {#            <img src="assets/images/advertising.jpg" width="452" height="338">#}
+    </div>
+    <div class="jgwbotton">
+        <a href="javascript:;">立即报名</a>
+    </div>
+</div>
+</body>
+
+</html>

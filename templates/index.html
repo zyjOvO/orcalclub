@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="am-g am-g-fixed blog-fixed" style="padding-bottom: 100px">
+        <div class="am-u-md-8 am-u-sm-12">
+        {% for item in articles %}
+            <article class="am-g blog-entry-article" style="position: relative">
+                <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img" onclick="window.open('{% url 'article' item.id %}')">
+                    <img src="{{ item.image.url }}" alt="" class="am-u-sm-12">
+                </div>
+                <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text" style="position: static">
+                    <span class="blog-color">作者: </span>
+                    <span> {{ item.author }}</span>
+                    <span>{{ item.publish_date }}</span>
+                    <h1><a href="/article/{{ item.id }}">{{ item.title }}</a></h1>
+                    <p>{{ item.brief }}</p>
+                    <p><a href="" class="blog-continue">continue reading</a></p>
+                    <div style="position: absolute;right: 10px; bottom:10px">
+                        <span><a style="color: #337ab7;text-decoration: none;font-size: 12px" href="/article/{{ item.id }}">评论(<span class = "cy_cmt_count" >{{ item.comment_set.count }}</span>)</a></span>
+                        <span><a style="color: #337ab7;text-decoration: none;font-size: 12px" href="/article_dianzan?id={{item.id}}">踩一踩(<span class = "cy_cmt_count" >{{ item.dianzan }}</span>)</a></span>
+                        <span><a style="color: #337ab7;text-decoration: none;font-size: 12px" href="/article_shoucang?id={{item.id}}">收藏(<span class = "cy_cmt_count" >{{ item.shoucang_set.count}}</span>)</a></span>
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+            <ul class="am-pagination">
+            {% if articles.has_previous %}
+            <li class="am-pagination-prev"><a href="?page={{ articles.previous_page_number }}">&laquo; Prev</a></li>
+            {% else %}
+            <li class="am-pagination-prev"></li>
+            {% endif %}
+            {% if articles.has_next %}
+            <li class="am-pagination-next"><a href="?page={{ articles.next_page_number }}">Next &raquo;</a></li>
+            {% else %}
+            <li class="am-pagination-next"></li>
+            {% endif %}
+            </ul>
+        </div>
+        <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
+            <div class="blog-sidebar-widget blog-bor">
+                <h2 class="blog-text-center blog-title"><span>甲骨文俱乐部</span></h2>
+                <img src="{% static 'images/about.gif' %}" class="blog-entry-img" >
+                <p>ORACLE CLUB</p>
+                <p>************************</p>
+                <p>功能包括：文章浏览、文章搜索、文章发布、热门文章、评论、用户登录、用户注册、分页、图片上传等。</p>
+            </div>
+            <div class="blog-sidebar-widget blog-bor">
+                <h2 class="blog-text-center blog-title"><span>Contact ME</span></h2>
+                <p>
+                    <a href="https://jq.qq.com/?_wv=1027&k=zSTESaoG"><span class="am-icon-qq am-icon-fw am-primary blog-icon"></span></a>
+                    <a href=""><span class="am-icon-github am-icon-fw blog-icon"></span></a>
+                    <a href=""><span class="am-icon-weibo am-icon-fw blog-icon"></span></a>
+                    <a href=""><span class="am-icon-reddit am-icon-fw blog-icon"></span></a>
+                    <a href=""><span class="am-icon-weixin am-icon-fw blog-icon"></span></a>
+                </p>
+            </div>
+            <div class="blog-sidebar-widget blog-bor">
+                <h2 class="blog-title"><span>热门文章</span></h2>
+                <ul class="am-list">
+                    {% for h in hot %}
+                    <li><a href="/article/{{ h.id }}">{{ h.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

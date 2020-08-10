@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+ <div class="am-g am-g-fixed blog-fixed" style="padding-bottom: 100px">
+        <div class="am-u-md-8 am-u-sm-12">
+        {% for item in articles %}
+            <article class="am-g blog-entry-article" style="position: relative">
+                <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img">
+                    <img src="{{ item.image.url }}" alt="" class="am-u-sm-12">
+                </div>
+                <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text" style="position: static">
+                    <span class="blog-color">作者: </span>
+                    <span> {{ item.author }}</span>
+                    <span>{{ item.publish_date }}</span>
+                    <h1><a href="/article/{{ item.id }}">{{ item.title }}</a></h1>
+                    <p>{{ item.brief }}</p>
+                    <p><a href="" class="blog-continue">continue reading</a></p>
+                    <div style="position: absolute;right: 10px; bottom:10px;">
+                        <span>评论(<span class = "cy_cmt_count" >{{ item.comment_set.count }}</span>)</span>
+                        <span>踩一踩(<span class = "cy_cmt_count" >{{ item.dianzan }}</span>)</span>
+                        <span>收藏(<span class = "cy_cmt_count" >{{ item.shoucang_set.count}}</span>)</span>
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+            <ul class="am-pagination">
+            {% if articles.has_previous %}
+            <li class="am-pagination-prev"><a href="?page={{ articles.previous_page_number }}">&laquo; Prev</a></li>
+            {% else %}
+            <li class="am-pagination-prev"></li>
+            {% endif %}
+            {% if articles.has_next %}
+            <li class="am-pagination-next"><a href="?page={{ articles.next_page_number }}">Next &raquo;</a></li>
+            {% else %}
+            <li class="am-pagination-next"></li>
+            {% endif %}
+            </ul>
+        </div>
+        <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
+            <div class="blog-sidebar-widget blog-bor">
+                <h2 class="blog-text-center blog-title"><span>自我介绍</span></h2>
+                <img src="{{ request.user.image.url }}" class="blog-entry-img" >
+                <p>昵称：{{ request.user }}</p>
+                <p>邮箱：{{ request.user.email }}</p>
+                <p>爱好：{{ request.user.interest }}</p>
+            </div>
+
+            <div class="blog-sidebar-widget blog-bor">
+                <h2 class="blog-title"><span>我的收藏</span></h2>
+                <ul class="am-list">
+                    {% for item in request.user.shoucang.all %}
+                        <li><a href="/article/{{ item.article.id }}">{{ item.article.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+ </div>
+<!-- content end -->
+{% endblock %}
+
+{% block script %}
+    <script type="application/javascript">
+
+    </script>
+{% endblock %}

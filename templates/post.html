@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    <title>发布文章</title>
+
+{% endblock %}
+{% block link %}
+    <link rel="icon" type="image/png" href="{% static 'assets/i/favicon.png' %}">
+    <link rel="apple-touch-icon-precomposed" href="{% static 'assets/i/app-icon72x72@2x.png' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/amazeui.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'assets/css/admin.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/app2.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'markdown/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'markdown/css/bootstrap-theme.min.css' %}">
+    <link rel="stylesheet" href="{% static 'markdown/css/editormd.css' %}"/>
+    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon"/>
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="tpl-page-container">
+        <div class="tpl-portlet-components" style="padding-bottom: 100px">
+            <div class="tpl-block">
+                <div class="am-g">
+                    <div class="tpl-form-body tpl-form-line">
+                        <form method="post" enctype="multipart/form-data" class="am-form tpl-form-line-form"
+                              style="width: 90%;margin: auto">
+                            {% csrf_token %}
+                            <div class="am-form-group">
+                                <label for="user-name" class="am-u-sm-2 am-form-label">标题 <span
+                                        class="tpl-form-line-small-title">Title</span></label>
+                                <div class="am-u-sm-10">
+                                    <input name="title" type="text" class="tpl-form-input"
+                                           placeholder="请输入标题文字10-20字左右"/>
+                                </div>
+                            </div>
+                            <div class="am-form-group">
+                                <label class="am-u-sm-2 am-form-label">简介 <span
+                                        class="tpl-form-line-small-title">Brief</span></label>
+                                <div class="am-u-sm-10">
+                                    <input name="brief" type="text" placeholder="请输入文章简介"/>
+                                </div>
+                            </div>
+                            <div class="am-form-group">
+                                <label for="user-phone" class="am-u-sm-2 am-form-label">话题 <span
+                                        class="tpl-form-line-small-title">Topic</span></label>
+                                <div class="am-u-sm-10">
+                                    <select name="topic_id" data-am-selected="{searchBox: 1}">
+                                        {% for i in topics %}
+                                            <option value="{{ i.id }}">{{ i.topic }}</option>
+                                        {% endfor %}</select>
+                                </div>
+                            </div>
+                            <div class="am-form-group">
+                                <label for="user-weibo" class="am-u-sm-2 am-form-label">封面图 <span
+                                        class="tpl-form-line-small-title">Images</span></label>
+                                <div class="am-u-sm-10">
+                                    <div class="am-form-group am-form-file">
+                                        <div class="tpl-form-file-img"></div>
+                                        <button type="button" class="am-btn am-btn-danger am-btn-sm"><i
+                                                class="am-icon-cloud-upload"></i> 添加封面图片
+                                        </button>
+                                        <input name="up_image" id="doc-form-file" type="file" multiple>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="am-form-group">
+                                <label for="user-intro" class="am-u-sm-2 am-form-label">文章内容</label>
+
+                                    <div id="layout"  class="am-u-sm-10" style="z-index: 1">
+                                        <div id="test-editormd">
+                                            <textarea style="display:none;" name="content">### Bootstrap 兼容测试</textarea>
+                                        </div>
+                                    </div>
+                                    <script src="{% static 'markdown/js/jquery.min.js' %}"></script>
+
+                                    <!-- Latest compiled and minified JavaScript -->
+                                    <script src="{% static 'markdown/js/bootstrap.min.js' %}"></script>
+                                    <script src="{% static 'markdown/js/editormd.js' %}"></script>
+                                    <script type="text/javascript">
+                                        var testEditor;
+
+                                        $(function () {
+
+                                            $.get("{% static 'markdown/md/test.md' %}", function (md) {
+                                                testEditor = editormd("test-editormd", {
+                                                    width: "90%",
+                                                    height: 740,
+                                                    path: "{% static 'markdown/lib/' %}",
+                                                    markdown: md,
+                                                    codeFold: true,
+                                                    saveHTMLToTextarea: true,
+                                                    searchReplace: true,
+                                                    htmlDecode: "style,script,iframe|on*",
+                                                    emoji: true,
+                                                    taskList: true,
+                                                    tocm: true,         // Using [TOCM]
+                                                    tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+                                                    flowChart: true,             // 开启流程图支持，默认关闭
+                                                    sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+                                                    imageUpload: true,
+                                                    imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                                                    imageUploadURL: "../examples/php/upload.php",
+                                                    onload: function () {
+                                                        console.log('onload', this);
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    </script>
+
+
+                                    {#                                    <textarea name="content" class="" rows="10" id="user-intro"#}
+                                    {#                                              placeholder="请输入文章内容"></textarea>#}
+
+                            </div>
+                            <div class="am-form-group">
+                                <div class="am-u-sm-10 am-u-sm-push-2">
+                                    <button type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/amazeui.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'tiny_mce/tiny_mce.js' %}"></script>
+    <script>
+        tinyMCE.init({
+            'mode': 'textareas',
+            'width': 1000,
+            'height': 500
+        })
+    </script>
+
+{% endblock %}

@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+    .profile
+    {
+        width: 80%;
+        height: 500px;
+        margin: 50px 0;
+        border: 1px solid #eee;
+    }
+    .profile > p{
+        height: 40px;
+        background-color: lightgray;
+        color: black;
+        line-height: 40px;
+        padding-left: 10px;
+    }
+    .profile img{
+        width: 150px;
+        height: 150px;
+        border-radius: 75px;
+        position: absolute;
+        transform: translateX(-50%);left: 50%;
+        top:40px;
+    }
+    div.right{
+        float: left;
+        width: 60%;
+    }
+    div.right > div{
+        border-bottom: 1px solid #eee;
+        padding: 17px 30px;
+    }
+    div.right > div > input{
+        width: 300px;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+ <div class="am-g am-g-fixed blog-fixed" style="padding-bottom: 100px">
+       <div class="profile">
+           <p>个人信息</p>
+           <form style="overflow: hidden;margin-top: -10px" method="post" action="/profile/" id="form1">
+               <input name="id" style="display: none;" value="{{ user.id }}"/>
+               <div style="float: left;width: 40%;border-right:1px solid #eee">
+                   <div style="height: 300px; position: relative;border-bottom: 1px solid #eee;">
+                       <img src="{{ user.image.url }}" id="avatar">
+                       <input type="file" name="photo" style="display: none;" id="upload-img"/>
+                       {% if myself %}
+                       <button type="button" class="btn btn-info" id="upload-img-btn" style="position: absolute;transform: translateX(-50%);left: 50%; bottom:40px">
+                           修改头像
+                       </button>
+                       {% endif %}
+
+                   </div>
+                   <div style="height: 150px;position: relative">
+                       <div style="position: absolute;top: 50%;transform: translateY(-50%)translateX(-50%);left: 50%;">
+                        <input type="password" name="password" id="password">
+                        <button type="button" class="btn btn-info" onclick="change_password()">
+                           修改密码
+                        </button>
+                       </div>
+                   </div>
+               </div>
+               <div class="right">
+                   <div>
+                       <span>昵&nbsp&nbsp称:</span>&nbsp&nbsp&nbsp<input name="name" value="{{ user.username}}" disabled>
+                   </div>
+                   <div>
+                       <span>爱&nbsp&nbsp好:</span>&nbsp&nbsp&nbsp<input name="interest" value="{{ user.interest }}">
+                   </div>
+                   <div>
+                       <span>性&nbsp&nbsp别:</span>&nbsp&nbsp&nbsp
+                       <label style="width: 80px;margin-left: 40px"><input name="sex" type="radio" value="0" {% if user.sex == 0 %} checked {% endif %}/>男 </label>
+                       <label><input name="sex" type="radio" value="1" {% if user.sex == 1 %} checked {% endif %}/>女 </label>
+                   </div>
+                   <div>
+                       <span>地&nbsp&nbsp址:</span>&nbsp&nbsp&nbsp<input name="address" value="{{ user.address}}">
+                   </div>
+                   <div>
+                       <span>手&nbsp机&nbsp号:</span><input name="phone" value="{{ user.phone }}">
+                   </div>
+                   <div>
+                       <span>邮&nbsp&nbsp箱:</span>&nbsp&nbsp<input name="email" value="{{ user.email }}">
+                   </div>
+                   <div style="border: none;position: relative;height: 94px;">
+                       <input type="submit" class="btn btn-info" style="width:100px;position: absolute;top: 50%;transform: translateY(-50%)translateX(-50%);left: 50%;">
+                   </div>
+               </div>
+               {% csrf_token %}
+           </form>
+       </div>
+
+ </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script type="application/javascript">
+    $(document).ready(function(){
+        $('#upload-img-btn').click(function(){
+            $('#upload-img').click();
+        });
+
+        // ①为input设定change事件
+        $('#upload-img').change(function () {
+        //    ②如果value不为空，调用文件加载方法
+            if($(this).val() != ""){
+                fileLoad(this);
+            }
+        })
+
+    });
+
+    function change_password() {
+        var password = $("#password").val()
+        $.post("/reset-password/",{"password":password,"csrfmiddlewaretoken":"{{ csrf_token }}"},function(result){
+            alert("修改成功");
+          });
+
+    }
+
+    function fileLoad(ele){
+          //④创建一个formData对象
+        var formData = new FormData();
+        //⑤获取传入元素的val
+        var name = $(ele).val();
+          //⑥获取files
+        var files = $(ele)[0].files[0];
+        //⑦将name 和 files 添加到formData中，键值对形式
+        formData.append("file", files);
+        formData.append("name", name);
+        formData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+        $.ajax({
+            url: "/change-avatar/",
+            type: 'POST',
+            data: formData,
+            processData: false,// ⑧告诉jQuery不要去处理发送的数据
+            contentType: false, // ⑨告诉jQuery不要去设置Content-Type请求头
+            beforeSend: function () {
+               //⑩发送之前的动作
+                //alert("我还没开始发送呢");
+            },
+            success: function (responseStr) {
+               //11成功后的动作
+               $("#avatar").attr("src", JSON.parse(responseStr)['avatar'] + "?a"+Date());
+               alert("修改成功");
+            }
+            ,
+            error : function (responseStr) {
+                //12出错后的动作
+                alert("出错啦");
+            }
+        });
+    }
+
+
+    </script>
+{% endblock %}

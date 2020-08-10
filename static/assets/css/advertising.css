@@ -1,0 +1,66 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.jgwindow{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+.jgwbotton a{
+    text-decoration: none;
+    position: absolute;
+    /* left: 50%;
+    top: 50%; */
+    transform: translate(30%,30%);
+    font-size: 24px;
+    background: linear-gradient(90deg,#03a9f4,#f441a5,#ffeb4b,#03a9f4);
+    background-size: 400%;/*显示部分*/
+    width: 150px;
+    height: 55px;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
+    /*text-transform: uppercase;/*大写字母*/
+    border-radius: 50px;/*胶囊形状*/
+}
+
+.jgwbotton a::before{
+    content: "";
+    position: absolute;
+    left: -5px;
+    right: -5px;
+    top: -5px;
+    bottom: -5px;
+    background: linear-gradient(90deg,#03a9f4,#f441a5,#ffeb4b,#03a9f4);
+    background-size: 400%;/*显示部分*/
+    border-radius: 50px;
+    filter: blur(20px);
+    z-index: -1;/*图层位置*/
+}
+
+.jgwbotton a:hover::before{
+    animation: sunshine 8s infinite;/*中间流光*/
+}
+
+
+.jgwbotton a:hover{
+    animation: sunshine 8s infinite;/*鼠标挪上*/
+}
+@keyframes sunshine{
+    100%{
+        background-position: -400% 0;
+    }
+}

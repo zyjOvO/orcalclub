@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'assets/css/academic.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/amazeui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+    <title>学习</title>
+</head>
+
+<body>
+
+
+<div class="container">
+    <div>
+        {% include 'base_nav.html' with topics=topics %}
+    </div>
+    <div class="box">
+        <div class="img">
+            <a href="{% static 'study_books/动手学深度学习.pdf' %}"><img src="{% static 'assets/icos/AI.png' %}"></a>
+        </div>
+        <p>人工智能</p>
+    </div>
+    <div class="box">
+        <div class="img">
+            <a href="http://bestcbooks.com/recommended-cpp-books/"><img src="{% static 'assets/icos/c.png' %}"></a>
+        </div>
+        <p>C/C++</p>
+    </div>
+    <div class="box">
+        <div class="img">
+            <a href="../static/study_books/Java核心技术 卷I 基础知识（原书第10版）.pdf"><img src="{% static 'assets/icos/java.png' %}"></a>
+        </div>
+        <p>JAVA</p>
+    </div>
+    <div class="box">
+        <div class="img">
+            <a href="../static/study_books/深度学习入门-基于python的理论与实现.pdf"><img src="{% static 'assets/icos/python.png' %}"></a>
+        </div>
+        <p>Python</p>
+    </div>
+    <div class="box">
+        <div class="img">
+            <a href="https://www.php.cn/"><img src="{% static 'assets/icos/php.png' %}"></a>
+        </div>
+        <p>PHP</p>
+    </div>
+    <div class="box">
+        <div class="img">
+            <a href="https://www.w3school.com.cn/"><img src="{% static 'assets/icos/HTML5.png' %}"></a>
+        </div>
+        <p>前端</p>
+    </div>
+    <div class="box">
+        <div class="img">
+            <a href="../static/study_books/MySQL必知必会.pdf"><img src="{% static 'assets/icos/mysql.png' %}"></a>
+        </div>
+        <p>MySQL</p>
+    </div>
+    <div class="box">
+        <div class="img">
+            <a href="../static/study_books/深入理解Kafka：核心设计与实践原理.pdf"><img src="{% static 'assets/icos/kafka.png' %}"></a>
+        </div>
+        <p>Kafka</p>
+    </div>
+    <div class="box">
+        <div class="img">
+            <a href="../static/study_books/Redis深度历险：核心原理和应用实践.pdf"><img src="{% static 'assets/icos/redis.png' %}"></a>
+        </div>
+        <p>Redis</p>
+    </div>
+    <div class="box">
+        <div class="img">
+            <a href="https://github.com/"><img src="{% static 'assets/icos/github.png' %}"></a>
+        </div>
+        <p>Github</p>
+    </div>
+    <div class="box">
+        <div class="img">
+            <a href="{% static 'assets/icos/公众号.jpg' %}"><img src="{% static 'assets/icos/公众号.jpg' %}"></a>
+        </div>
+        <p>甲骨文俱乐部</p>
+    </div>
+    <div class="box">
+        <div class="img">
+            <a href="https://www.baidu.com"><img src="{% static 'assets/icos/learn.png' %}"></a>
+        </div>
+        <p>好好学习</p>
+    </div>
+    <div class="box">
+        <div class="img">
+            <a href="https://mp.weixin.qq.com/s/hisx9YWh4mwzRqLdb0sjQw"><img src="{% static 'assets/icos/敬请期待.png' %}"></a>
+        </div>
+        <p>敬请期待</p>
+    </div>
+</div>
+</body>
+
+</html>
